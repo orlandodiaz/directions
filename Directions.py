@@ -214,7 +214,6 @@ class Directions(object):
 
         return msg
 
-    @staticmethod
     def build_hex_2bytes(self, hex_resp):
         """ Hex List separted after every 16 bits (2 bytes)"""
         hex2b = []
@@ -246,7 +245,6 @@ class Directions(object):
 
         return msg
 
-    @staticmethod
     def convert_to_hex(self, response):
         """ Converts binary to plain hex. Used for decoding response"""
 
