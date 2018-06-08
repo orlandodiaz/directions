@@ -5,6 +5,7 @@ from log import log
 import re
 import sys
 
+
 class Response(object):
     """ This response object has all the response information received from the DNS server"""
 
@@ -28,27 +29,21 @@ class Response(object):
         self.parse_response(self.hex_resp)
         self.parse_ip(self.hex_resp)
 
-
-        # print self.__repr__()
-
     def __repr__(self):
         return "<Response [{}]>".format(self.dns_packet['header']['flags']['RCODE'])
 
     def parse_response(self, hex_resp):
-        pass
 
-
-
-        self.header_str = hex_resp[:24]
-        self.header_query_str = self.header_str[:4]
-        self.header_flags_str = self.header_str[4:8]
+        header_str = hex_resp[:24]
+        header_query_str = header_str[:4]
+        header_flags_str = header_str[4:8]
 
         flags_binary = ''
-        for hex in self.header_flags_str:
+        for hex in header_flags_str:
             flags_binary += "{0:04b}".format(int(hex, 16))
 
         self.dns_packet['header']['raw_header'] = self.hex_resp[:24]
-        self.dns_packet['header']['QUERY_ID'] = self.header_str[:4]
+        self.dns_packet['header']['QUERY_ID'] = header_str[:4]
 
         self.dns_packet['header']['flags'] = {}
         self.dns_packet['queries'] = {}
@@ -84,10 +79,10 @@ class Response(object):
             pass
         else:
 
-            self.dns_packet['header']['QDCCOUNT'] = int(self.header_str[8:12], 16)
-            self.dns_packet['header']['ANCOUNT'] = int(self.header_str[12:16], 16)
-            self.dns_packet['header']['NSCOUNT'] = int(self.header_str[16:20], 16)
-            self.dns_packet['header']['ARCOUNT'] = int(self.header_str[20:24], 16)
+            self.dns_packet['header']['QDCCOUNT'] = int(header_str[8:12], 16)
+            self.dns_packet['header']['ANCOUNT'] = int(header_str[12:16], 16)
+            self.dns_packet['header']['NSCOUNT'] = int(header_str[16:20], 16)
+            self.dns_packet['header']['ARCOUNT'] = int(header_str[20:24], 16)
 
             # Question is a variable length not fixed!
             question = hex_resp[24:]
@@ -149,16 +144,8 @@ class Response(object):
             rdlen = self.dns_packet['answers'][url]['RDLENGTH']
             self.dns_packet['answers'][url]['RDATA'] = self.parse_ip("".join(answer_section[10:14]))
 
-
-
-
-
-
-
-
-        # Parse answer
-
     def parse_ip(self, hex_resp):
+        """Parses ip from complete plain hex response (not binary)"""
         ip_hex = hex_resp[-8:]
         ip_nums = []
 
@@ -223,20 +210,14 @@ class Directions(object):
             msg += binascii.hexlify(char)
 
         msg += message_p3
+        self.msg = msg
 
         return msg
 
-
+    @staticmethod
     def build_hex_2bytes(self, hex_resp):
         """ Hex List separted after every 16 bits (2 bytes)"""
         hex2b = []
-
-        # print hex_resp
-        # print len(hex_resp)
-
-        # for i in range(0, len(hex_resp), 4):
-        #     hex2b.append("{}{}{}{}".format(hex_resp[i], hex_resp[i+1]
-        #                                    , hex_resp[i+2], hex_resp[i+3]))
 
         hex2b = re.findall(r'.{2,4}', hex_resp)
 
@@ -265,8 +246,10 @@ class Directions(object):
 
         return msg
 
+    @staticmethod
     def convert_to_hex(self, response):
         """ Converts binary to plain hex. Used for decoding response"""
+
         response = binascii.hexlify(response).decode("utf-8")
         return response
 
@@ -287,7 +270,6 @@ class Directions(object):
             self.sock.close()
             self.is_connected = False
             self.raw_resp = resp
-
 
     def to(self, url):
         """ Sends message and returns DNS response object"""
@@ -310,6 +292,7 @@ class Directions(object):
         # print("Hex response: {}".format(self.hex_resp))
 
         return Response(self.hex_resp, hex2b)
+
 
 if __name__ == '__main__':
     directions = Directions()

@@ -448,3 +448,11 @@
 [2018-06-07 18:12:42      Directions.py] INFO    - Sending message to DNS server
 [2018-06-07 18:12:42      Directions.py] INFO    - Message was successfully received
 [2018-06-07 18:12:42      Directions.py] INFO    - Hex to bytes: ['234d', '8180', '0001', '0001', '0000', '0000', '0866', '6163', '6562', '6f6f', '6b03', '636f', '6d00', '0001', '0001', 'c00c', '0001', '0001', '0000', '0039', '0004', '9df0', '1323']
+[2018-06-07 21:42:02      Directions.py] INFO    - Connection being established
+[2018-06-07 21:42:02      Directions.py] INFO    - Binding to port 8888
+[2018-06-07 21:42:02      Directions.py] INFO    - Sending message to DNS server
+[2018-06-07 21:42:02      Directions.py] INFO    - Message was successfully received
+[2018-06-07 21:44:53      Directions.py] INFO    - Connection being established
+[2018-06-07 21:44:53      Directions.py] INFO    - Binding to port 8888
+[2018-06-07 21:44:53      Directions.py] INFO    - Sending message to DNS server
+[2018-06-07 21:44:53      Directions.py] INFO    - Message was successfully received
